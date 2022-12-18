@@ -1,4 +1,5 @@
-const {readFile, writeFile} = require('fs')
+const EventEmitter = require('events')
 
-// for synchronous method, you need to provide a callback
+const customerEmitter = new EventEmitted()
 
+customerEmitter.on('response')
