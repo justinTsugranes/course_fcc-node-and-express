@@ -1,19 +1,32 @@
 const express = require('express')
-const path = require('path')
 const app = express()
+const port = 5000
+const logger = require('./logger')
+const authorize = require('./authorize')
 
-app.use(express.static('./public'))
+// req => middleware => res
 
-// app.get('/', (req, res) => {
-//   res.sendFile(path.resolve(__dirname, './navbar-app/index.html'))
-// adding to static assets
-// SSR
-// })
+// MIDDLEWARE
+// app.use invokes for everything that follows
+// you can specify a base path (ie app.use('/api', logger)) that the middleware will use. otherwise, it will apply to everything
+app.use([logger, authorize])
 
-app.all('*', (req, res) => {
-  res.status(404).send('resource not found')
+// ROUTE METHODS
+app.get('/', (req, res) => {
+  res.send('Home Page')
 })
 
-app.listen(5000, () => {
-  console.log(`server is listening on port 5000....`)
+app.get('/about', (req, res) => {
+  res.send('About Page')
+})
+app.get('/api/products', (req, res) => {
+  res.send('Products Page')
+})
+app.get('/api/reviews', (req, res) => {
+  res.send('Reviews Page')
+})
+
+// SERVER
+app.listen(port, () => {
+  console.log(`Server is running on port: ${port}`)
 })
